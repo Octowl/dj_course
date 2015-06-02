@@ -46,7 +46,9 @@ class Choice(models.Model):
 
 
 class Response(models.Model):
-    poll = models.ForeignKey(Poll, verbose_name="poll question")
+    poll = models.ForeignKey(Poll,
+                             null=True, blank=True,
+                             verbose_name="poll question")
     choice = models.ForeignKey(Choice, null=True, blank=True)
     comment = models.TextField(blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)

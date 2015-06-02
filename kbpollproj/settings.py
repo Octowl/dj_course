@@ -47,6 +47,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.instagram'
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,10 +83,25 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'django.core.context_processors.request',
+                'allauth.account.context_processors.account',
+                'allauth.socialaccount.context_processors.socialaccount',
             ],
         },
     },
 ]
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'alsaff1987@gmail.com'
+# EMAIL_HOST_PASSWORD =
+# DEFAULT_FROM_EMAIL = 'alsaff1987@gmail.com'
 
 WSGI_APPLICATION = 'kbpollproj.wsgi.application'
 
