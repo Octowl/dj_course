@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Available Polls</h1>
-
-<ul>
-{% for p in polls %}
-    <li>
-        {{ p.name }} category: {{ p.category }}
-    </li>
-{% empty %}
-    <li>
-        <h2>No Polls Available</h2>
-    </li>
-{% endfor %}
-</ul>
+    <h1>Available Polls</h1>
+    <div class="list-group">
+        {% for p in polls %}
+            <a class="list-group-item" href="{% url 'poll_details' p.pk %}">
+                        <span class="badge">
+                            {{ p.category }}
+                        </span>
+                <h4 class="list-group-item-heading">{{ p.name }}</h4>
+                <p class="list-group-item-text">{{ p.question }}</p>
+            </a>
+        {% empty %}
+            <h2>No Polls Available</h2>
+        {% endfor %}
+    </div>
 {% endblock %}
