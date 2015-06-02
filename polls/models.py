@@ -6,6 +6,12 @@ class Poll(models.Model):
     category = models.CharField("poll category", max_length=64)
     question = models.TextField(blank=True)
 
+    def __str__(self):
+        return "{}: {}".format(self.name, self.category)
+
+    def choice_count(self):
+        return self.choice_set.count()
+
 
 class Choice(models.Model):
     poll = models.ForeignKey(Poll, verbose_name="poll question")
@@ -13,8 +19,17 @@ class Choice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField("last updated", auto_now=True)
 
+    def __str__(self):
+        return "{}".format(self.label)
+
 
 class Response(models.Model):
     choice = models.ForeignKey(Choice, null=True, blank=True)
     comment = models.TextField(blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def poll_name(self):
+        return self.choice.poll.name
+
+    def choice_label(self):
+        return self.choice.label
