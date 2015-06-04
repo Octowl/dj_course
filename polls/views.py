@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.views.generic import ListView, DetailView
 
 from .models import Poll, Choice
-from .forms import ResponseForm
+from .forms import ResponseForm, PollForm, InlineChoiceFormset
 
 
 class PollList(ListView):
@@ -68,5 +68,29 @@ def poll_response(request, poll_id):
         {
             'poll': poll,
             'form': form,
+        }
+    )
+
+def poll_create(request):
+    if request.method == 'POST':
+        form = PollForm(request.POST)
+        if form.is_valid():
+            poll = form.save(commit=False)
+            formset = InlineChoiceFormset(request.POST, instance=poll)
+            if formset.is_valid():
+                poll.save()
+                formset.save()
+                messages.success(request,'Poll was successfully created.')
+                return redirect('poll_list')
+    else:
+        form = PollForm()
+        formset = InlineChoiceFormset(instance=Poll())
+
+    return render(
+        request,
+        'poll_create.html',
+        {
+            "form": form,
+            "formset": formset,
         }
     )

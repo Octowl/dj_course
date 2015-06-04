@@ -6,18 +6,18 @@ class Poll(models.Model):
 
     DEMOGRAPHICS = 'DEM'
     POLITICS = 'POL'
-    SPORTS = 'SPT'
-    TECHNOLOGY = 'TEC'
-    ACADEMICS = 'ACD'
-    TRAVEL = 'TRL'
+    SPORTS = 'SPRT'
+    TECHNOLOGY = 'TECH'
+    ACADEMICS = 'AC'
+    TRAVEL = 'TRVL'
 
     CATEGORY_CHOICES = (
         ('DEM', 'Demographics'),
         ('POL', 'Politics'),
-        ('SPT', 'Sports'),
-        ('TEC', 'Technology'),
-        ('ACD', 'Academics'),
-        ('TRL', 'Travel'),
+        ('SPRT', 'Sports'),
+        ('TECH', 'Technology'),
+        ('AC', 'Academics'),
+        ('TRVL', 'Travel'),
     )
 
     name = models.CharField("poll name", max_length=64)
