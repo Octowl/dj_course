@@ -74,6 +74,7 @@ def poll_response(request, poll_id):
 def poll_create(request):
     if request.method == 'POST':
         form = PollForm(request.POST)
+        formset = None
         if form.is_valid():
             poll = form.save(commit=False)
             formset = InlineChoiceFormset(request.POST, instance=poll)
@@ -86,10 +87,47 @@ def poll_create(request):
         form = PollForm()
         formset = InlineChoiceFormset(instance=Poll())
 
+    if not formset:
+        formset = InlineChoiceFormset(instance=poll)
+
     return render(
         request,
         'poll_create.html',
         {
+            "form": form,
+            "formset": formset,
+        }
+    )
+
+
+def poll_edit(request, poll_id):
+    poll = get_object_or_404(Poll, pk=poll_id)
+    # enable ability to delete choices
+    InlineChoiceFormset.can_delete = True
+    formset = None
+
+    if request.method == 'POST':
+        form = PollForm(request.POST, instance=poll)
+        if form.is_valid():
+            formset = InlineChoiceFormset(request.POST, instance=poll)
+            if formset.is_valid():
+                form.save()  # this will update object
+                formset.save()  # this will update objects
+                messages.success(request, 'Poll was successfully edited.')
+                return redirect('poll_list')
+    else:
+        # both form and formset are bound to
+        # the poll object we are editing
+        form = PollForm(instance=poll)
+
+    if not formset:
+        formset = InlineChoiceFormset(instance=poll)
+
+    return render(
+        request,
+        'poll_edit.html',
+        {
+            "poll": poll,
             "form": form,
             "formset": formset,
         }
