@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
 
 from .models import Poll, Choice
@@ -29,6 +30,7 @@ class PollDetails(DetailView):
 #     return render(request, "poll_details.html", {"poll": poll})
 
 
+@login_required
 def poll_response(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
 
@@ -71,6 +73,7 @@ def poll_response(request, poll_id):
         }
     )
 
+@login_required
 def poll_create(request):
     if request.method == 'POST':
         form = PollForm(request.POST)
@@ -99,7 +102,7 @@ def poll_create(request):
         }
     )
 
-
+@login_required
 def poll_edit(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     # enable ability to delete choices
