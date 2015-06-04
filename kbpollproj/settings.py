@@ -150,4 +150,9 @@ MESSAGE_TAGS ={
     message_constants.ERROR: 'alert-danger',
 }
 
+try:
+    from .production_settings import *
+except ImportError:
+    print("Unable to load production settings!!!")
+
 # kisr5 45.55.161.44
