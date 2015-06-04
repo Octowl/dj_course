@@ -19,15 +19,14 @@ class PollDetails(DetailView):
     context_object_name = "poll"
     pk_url_kwarg = "poll_id"
 
-# def poll_list(request):
-#     # construct a queryset
-#     qs = get_list_or_404(Poll)
-#     return render(request, "poll_list.html", {"polls": qs})
 
-# def poll_details(request, poll_id):
-#     poll = get_object_or_404(Poll, pk=poll_id)
-#
-#     return render(request, "poll_details.html", {"poll": poll})
+class UserPollList(ListView):
+    model = Poll
+    template_name = "poll_list.html"
+    context_object_name = "polls"
+
+    def get_queryset(self):
+        return Poll.objects.filter(author=self.kwargs["user_id"])
 
 
 @login_required
@@ -82,12 +81,13 @@ def poll_create(request):
             poll = form.save(commit=False)
             formset = InlineChoiceFormset(request.POST, instance=poll)
             if formset.is_valid():
+                poll.user = request.user
                 poll.save()
                 formset.save()
                 messages.success(request,'Poll was successfully created.')
                 return redirect('poll_list')
     else:
-        form = PollForm()
+        form = PollForm(initial={'author': request.user})
         formset = InlineChoiceFormset(instance=Poll())
 
     if not formset:

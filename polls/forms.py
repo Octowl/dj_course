@@ -21,6 +21,9 @@ class PollForm(forms.ModelForm):
     class Meta:
         model = Poll
         fields = '__all__'
+        widgets = {
+            'author': forms.HiddenInput,
+        }
 
 
 class ChoiceForm(forms.ModelForm):
