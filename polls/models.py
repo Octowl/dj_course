@@ -20,6 +20,7 @@ class Poll(models.Model):
         ('TRVL', 'Travel'),
     )
 
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     name = models.CharField("poll name", max_length=64)
     category = models.CharField("poll category",
                                 choices=CATEGORY_CHOICES,
