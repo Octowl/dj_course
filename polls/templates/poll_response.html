@@ -14,9 +14,11 @@
     <a class="btn btn-default" href="{% url 'poll_details' poll.pk %}">
         View Results
     </a>
+    {% if poll.author == request.user %}
     <a class="btn btn-default" href="{% url 'poll_edit' poll.pk %}">
         Edit Poll
     </a>
+    {% endif %}
 
 {% endblock %}
 
