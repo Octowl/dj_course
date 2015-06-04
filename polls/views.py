@@ -38,16 +38,17 @@ def poll_response(request, poll_id):
         form = ResponseForm(request.POST)
         # validate the data
         if form.is_valid():
-            # we no have validated data in cleaned_data
-            # get the respondent choice object
-            r_choice = form.cleaned_data['choice']
-            # get the respondent comment
-            r_comment = form.cleaned_data['comment']
-
-            # create the new response entry using our choice reverse selection
-            r_choice.response_set.create(
-                comment=r_comment,
-            )
+            # # we no have validated data in cleaned_data
+            # # get the respondent choice object
+            # r_choice = form.cleaned_data['choice']
+            # # get the respondent comment
+            # r_comment = form.cleaned_data['comment']
+            #
+            # # create the new response entry using our choice reverse selection
+            # r_choice.response_set.create(
+            #     comment=r_comment,
+            # )
+            form.save()
 
             messages.success(request, 'Your response was successfully posted')
 

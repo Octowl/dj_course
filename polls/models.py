@@ -50,7 +50,7 @@ class Response(models.Model):
     poll = models.ForeignKey(Poll,
                              null=True, blank=True,
                              verbose_name="poll question")
-    choice = models.ForeignKey(Choice, null=True, blank=True)
+    choice = models.ForeignKey(Choice, default=0)
     comment = models.TextField(blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
