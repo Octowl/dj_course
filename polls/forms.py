@@ -1,11 +1,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
-from .models import Response, Poll, Choice
+from .models import Response, Poll, Choice, UserProfile
 
-
-# class ResponseForm(forms.Form):
-#     choice = forms.ModelChoiceField(queryset=Choice.objects.all(), widget=forms.widgets.RadioSelect)
-#     comment = forms.CharField(widget=forms.widgets.Textarea)
 
 class ResponseForm(forms.ModelForm):
     # choice = forms.ModelChoiceField(
@@ -40,3 +36,19 @@ InlineChoiceFormset = inlineformset_factory(
     extra=10,
     max_num=10,
 )
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = ('user',)
+
+    def signup(self, request, user):
+        # crate user profile here
+        UserProfile.objects.create(
+            user=user,
+            gender=self.cleaned_data.get('gender'),
+            bio=self.cleaned_data.get('bio'),
+            location=self.cleaned_data.get('location'),
+            phone=self.cleaned_data.get('phone'),
+        )

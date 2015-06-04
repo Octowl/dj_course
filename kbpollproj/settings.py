@@ -104,6 +104,11 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 # EMAIL_HOST_PASSWORD =
 # DEFAULT_FROM_EMAIL = 'alsaff1987@gmail.com'
 
+# Where to send the user after successful login
+LOGIN_REDIRECT_URL = '/polls/list/'
+# Which form to use for additional registration info
+ACCOUNT_SIGNUP_FORM_CLASS = 'polls.forms.UserProfileForm'
+
 WSGI_APPLICATION = 'kbpollproj.wsgi.application'
 
 
